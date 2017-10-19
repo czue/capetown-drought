@@ -10,3 +10,4 @@ All data comes from the City of Cape Town's [Open Data Portal](http://web1.capet
 
 ## Updating Data
 
+`python main.py [source_filename]`
