@@ -1,0 +1,12 @@
+.idea
+.sass-cache
+s3_website.yml
+*.pyc
+*.sqlite3
+node_modules
+yarn*
+media
+_working
+localsettings.py
+static_root
+.ipynb*
