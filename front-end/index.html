@@ -21,7 +21,12 @@
         options: {
         scales: {
             yAxes: [{
-                stacked: true
+                stacked: true,
+                ticks: {
+                    callback: function(value, index, values) {
+                        return value + " Ml";
+                    }
+                }
             }]
         }
     }
