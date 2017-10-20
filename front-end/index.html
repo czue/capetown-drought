@@ -9,6 +9,7 @@
     <!-- <script src="stuff.js"></script> -->
     <title>The Drought: Cape Town's Water Crisis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <section class="section">
@@ -18,6 +19,19 @@
             <canvas id="myChart" width="800" height="600"></canvas>
         </div>
     </section>
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            Made by <a href="http://www.coryzue.com">Cory Zue</a> and <a href="https://github.com/nathanbegbie">Nathan Begbie</a>.
+          </p>
+          <p>
+            No <span class="icon has-text-info"><i class="fa fa-tint"></i></span> was wasted in the creation of this site.
+            <a href="https://github.com/czue/capetown-drought">Source</a> on <i class="fa fa-github"></i>
+          </p>
+        </div>
+      </div>
+    </footer>
     <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
