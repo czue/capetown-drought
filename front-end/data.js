@@ -8509,7 +8509,7 @@ var data = {
       ]
     },
     {
-      label: "VO\u00ef\u00bf\u00bdLVLEI",
+      label: "VOËLVLEI",
       backgroundColor: "rgba(11, 87, 165, 0.2",
       data: [
         124100,

@@ -7,14 +7,72 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
     <script src="./data.js"></script>
     <!-- <script src="stuff.js"></script> -->
-    <title>Water Crisis</title>
+    <title>The Drought: Cape Town's Water Crisis</title>
+    <meta name="description" content="Historical dam levels for the Cape Town Region from 2012 to present day.">
+    <meta name="keywords" content="cape town, cape town drought, water crisis, save water, dam levels, cape town dam levels">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@capetowndrought" />
+    <meta name="twitter:creator" content="@czue" />
+    <meta property="og:title" content="The Drought: Cape Town's Water Crisis" />
+    <meta property="og:description" content="Historical dam levels for the Cape Town Region from 2012 to present day.">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.capetowndrought.com/" />
+    <meta property="og:image" content="https://pbs.twimg.com/profile_images/869893787081990144/pYJ1vjKG_400x400.jpg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94102737-8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-94102737-8');
+    </script>
 </head>
 <body>
-    <div>
-        <canvas id="myChart" width="800" height="600"></canvas>
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Cape Town's Water Crisis</h1>
+            <h2 class="subtitle">Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
+            <canvas id="myChart" width="800" height="600"></canvas>
+        </div>
+    </section>
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            Made by <a href="http://www.coryzue.com">Cory Zue</a> and <a href="https://github.com/nathanbegbie">Nathan Begbie</a>.
+          </p>
+          <p>
+            No <span class="icon has-text-info"><i class="fa fa-tint"></i></span> was wasted in the creation of this site.
+            <a href="https://github.com/czue/capetown-drought">Source</a> on <i class="fa fa-github"></i>
+          </p>
+        </div>
+      </div>
+    </footer>
     <script>
     var ctx = document.getElementById("myChart");
+
+    // dynamic legend for different browser widths
+    function getLegend(width) {
+        if (width < 600)
+        {
+            return {
+                display: false
+            };
+        } else if (width < 1000) {
+            return {
+                display: true,
+                position: "bottom"
+            }
+        } else {
+            return {
+                display: true,
+                position: "right"
+            }
+        }
+    }
     var myChart = new Chart(ctx, {
         type: 'line',
         data: data,
@@ -29,18 +87,31 @@
                     }
                 }],
             },
+            elements: {
+                point: {
+                    radius: 0
+                }
+            },
             layout: {
                 padding: 20,
             },
-            title: {
-                display: true,
-                text: "Dam Levels for the Cape Town Region: 2012 - Present",
-            },
-            legend: {
-                position: "right"
-            }
+            legend: getLegend(document.body.clientWidth),
+            maintainAspectRatio: true
         }
     });
+
+    // hide legend on small devices
+    // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
+    // this is wonky so don't bother for now.
+    //    var resizeId;
+    //    window.onresize = function(event) {
+    //        clearTimeout(resizeId);
+    //        resizeId = setTimeout(afterResizing, 100);
+    //    };
+    //    function afterResizing(){
+    //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
+    //        myChart.update();
+    //    }
     </script>
 </body>
 </html>
