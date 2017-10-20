@@ -34,6 +34,26 @@
     </footer>
     <script>
     var ctx = document.getElementById("myChart");
+
+    // dynamic legend for different browser widths
+    function getLegend(width) {
+        if (width < 600)
+        {
+            return {
+                display: false
+            };
+        } else if (width < 1000) {
+            return {
+                display: true,
+                position: "bottom"
+            }
+        } else {
+            return {
+                display: true,
+                position: "right"
+            }
+        }
+    }
     var myChart = new Chart(ctx, {
         type: 'line',
         data: data,
@@ -51,11 +71,23 @@
             layout: {
                 padding: 20,
             },
-            legend: {
-                position: "right"
-            }
+            legend: getLegend(document.body.clientWidth),
+            maintainAspectRatio: true
         }
     });
+
+    // hide legend on small devices
+    // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
+    // this is wonky so don't bother for now.
+    //    var resizeId;
+    //    window.onresize = function(event) {
+    //        clearTimeout(resizeId);
+    //        resizeId = setTimeout(afterResizing, 100);
+    //    };
+    //    function afterResizing(){
+    //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
+    //        myChart.update();
+    //    }
     </script>
 </body>
 </html>
