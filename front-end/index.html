@@ -10,21 +10,36 @@
     <title>Water Crisis</title>
 </head>
 <body>
-    <div style="width: 80%;height:80%;">
-        <canvas id="myChart" width="100" height="100"></canvas>
+    <div>
+        <canvas id="myChart" width="800" height="600"></canvas>
     </div>
     <script>
-    var ctx = document.getElementById("myChart")//.getContext('2d');
+    var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: {
-        scales: {
-            yAxes: [{
-                stacked: true
-            }]
+            scales: {
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return value + " Ml";
+                        }
+                    }
+                }],
+            },
+            layout: {
+                padding: 20,
+            },
+            title: {
+                display: true,
+                text: "Dam Levels for the Cape Town Region: 2012 - Present",
+            },
+            legend: {
+                position: "right"
+            }
         }
-    }
     });
     </script>
 </body>
