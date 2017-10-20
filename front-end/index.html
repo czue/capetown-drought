@@ -7,12 +7,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
     <script src="./data.js"></script>
     <!-- <script src="stuff.js"></script> -->
-    <title>Water Crisis</title>
+    <title>The Drought: Cape Town's Water Crisis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
 </head>
 <body>
-    <div>
-        <canvas id="myChart" width="800" height="600"></canvas>
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Cape Town's Water Crisis</h1>
+            <h2 class="subtitle">Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
+            <canvas id="myChart" width="800" height="600"></canvas>
+        </div>
+    </section>
     <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
@@ -31,10 +36,6 @@
             },
             layout: {
                 padding: 20,
-            },
-            title: {
-                display: true,
-                text: "Dam Levels for the Cape Town Region: 2012 - Present",
             },
             legend: {
                 position: "right"
