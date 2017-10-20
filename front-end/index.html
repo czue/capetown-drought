@@ -14,22 +14,22 @@
         <canvas id="myChart" width="100" height="100"></canvas>
     </div>
     <script>
-    var ctx = document.getElementById("myChart")//.getContext('2d');
+    var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: {
-        scales: {
-            yAxes: [{
-                stacked: true,
-                ticks: {
-                    callback: function(value, index, values) {
-                        return value + " Ml";
+            scales: {
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return value + " Ml";
+                        }
                     }
-                }
-            }]
+                }],
+            }
         }
-    }
     });
     </script>
 </body>
