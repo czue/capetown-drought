@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
     <script src="./data.js"></script>
     <!-- <script src="stuff.js"></script> -->
     <title>The Drought: Cape Town's Water Crisis</title>
@@ -26,7 +29,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'UA-94102737-8');
     </script>
 </head>
@@ -52,66 +54,68 @@
       </div>
     </footer>
     <script>
-    var ctx = document.getElementById("myChart");
-
-    // dynamic legend for different browser widths
-    function getLegend(width) {
-        if (width < 600)
-        {
-            return {
-                display: false
-            };
-        } else if (width < 1000) {
-            return {
-                display: true,
-                position: "bottom"
-            }
-        } else {
-            return {
-                display: true,
-                position: "right"
-            }
-        }
-    }
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            scales: {
-                yAxes: [{
-                    stacked: true,
-                    ticks: {
-                        callback: function(value, index, values) {
-                            return value + " Ml";
-                        }
-                    }
-                }],
-            },
-            elements: {
-                point: {
-                    radius: 0
+    $(function () {
+        var ctx = document.getElementById("myChart");
+        // dynamic legend for different browser widths
+        function getLegend(width) {
+            if (width < 600)
+            {
+                return {
+                    display: false
+                };
+            } else if (width < 1000) {
+                return {
+                    display: true,
+                    position: "bottom"
                 }
-            },
-            layout: {
-                padding: 20,
-            },
-            legend: getLegend(document.body.clientWidth),
-            maintainAspectRatio: true
+            } else {
+                return {
+                    display: true,
+                    position: "right"
+                }
+            }
         }
-    });
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return value + " Ml";
+                            }
+                        }
+                    }],
+                },
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                },
+                layout: {
+                    padding: 20,
+                },
+                legend: getLegend(document.body.clientWidth),
+                maintainAspectRatio: true
+            }
+        });
 
-    // hide legend on small devices
-    // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
-    // this is wonky so don't bother for now.
-    //    var resizeId;
-    //    window.onresize = function(event) {
-    //        clearTimeout(resizeId);
-    //        resizeId = setTimeout(afterResizing, 100);
-    //    };
-    //    function afterResizing(){
-    //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
-    //        myChart.update();
-    //    }
+        // hide legend on small devices
+        // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
+        // this is wonky so don't bother for now.
+        //    var resizeId;
+        //    window.onresize = function(event) {
+        //        clearTimeout(resizeId);
+        //        resizeId = setTimeout(afterResizing, 100);
+        //    };
+        //    function afterResizing(){
+        //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
+        //        myChart.update();
+        //    }
+
+    });
     </script>
 </body>
 </html>
