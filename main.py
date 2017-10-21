@@ -29,9 +29,15 @@ def _write_file(data):
 
 def _load_dates(df):
     dates = df.iloc[:, 0][4:]
-    dates = pd.to_datetime(dates)
+    dates = pd.to_datetime(dates, dayfirst=True)
     # dates = dates.apply(lambda x: x.to_
-    return [str(d) for d in dates.tolist()]
+    last_date = None
+    for i, date in enumerate(dates):
+        if last_date:
+            assert last_date <= date, 'date {} found out of order! {} < {}'.format(i, date, last_date)
+        last_date = date
+
+    return [str(d.date()) for d in dates.tolist()]
 
 
 def _load_data(df):
