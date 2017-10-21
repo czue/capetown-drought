@@ -8,7 +8,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
-    <script src="./data.js"></script>
     <!-- <script src="stuff.js"></script> -->
     <title>The Drought: Cape Town's Water Crisis</title>
     <meta name="description" content="Historical dam levels for the Cape Town Region from 2012 to present day.">
@@ -54,53 +53,82 @@
       </div>
     </footer>
     <script>
+    function getLegend(width) {
+        if (width < 600)
+        {
+            return {
+                display: false
+            };
+        } else if (width < 1000) {
+            return {
+                display: true,
+                position: "bottom"
+            }
+        } else {
+            return {
+                display: true,
+                position: "right"
+            }
+        }
+    }
+    var COLORS = [
+        "rgba(156, 204, 60, 0.2)",
+        "rgba(22, 169, 143, 0.2)",
+        "rgba(26, 146, 206, 0.2)",
+        "rgba(11, 87, 165, 0.2",
+        "rgba(107, 69, 156, 0.2)",
+        "rgba(164, 69, 153, 0.2)",
+        "rgba(228, 66, 152, 0.2)",
+        "rgba(236, 32, 41, 0.2)",
+        "rgba(248, 144, 33, 0.2)",
+        "rgba(255, 193, 20, 0.2)",
+        "rgba(247, 238, 35, 0.2)",
+    ];
+
+    function getColor(index) {
+        if (index < COLORS.length) {
+            return COLORS[index];
+        }
+        return COLORS[10];  // default
+    }
+
     $(function () {
         var ctx = document.getElementById("myChart");
         // dynamic legend for different browser widths
-        function getLegend(width) {
-            if (width < 600)
-            {
-                return {
-                    display: false
-                };
-            } else if (width < 1000) {
-                return {
-                    display: true,
-                    position: "bottom"
-                }
-            } else {
-                return {
-                    display: true,
-                    position: "right"
-                }
+        $.getJSON('data.json', function(data) {
+            console.log(data.metadata.updated);
+            var chartData = data.chart_data;
+            for (var i = 0; i < chartData.datasets.length; i++) {
+                chartData.datasets[i]['backgroundColor'] = getColor(i);
             }
-        }
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: {
-                scales: {
-                    yAxes: [{
-                        stacked: true,
-                        ticks: {
-                            callback: function(value, index, values) {
-                                return value + " Ml";
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return value + " Ml";
+                                }
                             }
+                        }],
+                    },
+                    elements: {
+                        point: {
+                            radius: 0
                         }
-                    }],
-                },
-                elements: {
-                    point: {
-                        radius: 0
-                    }
-                },
-                layout: {
-                    padding: 20,
-                },
-                legend: getLegend(document.body.clientWidth),
-                maintainAspectRatio: true
-            }
+                    },
+                    layout: {
+                        padding: 20,
+                    },
+                    legend: getLegend(document.body.clientWidth),
+                    maintainAspectRatio: true
+                }
+            });
         });
+
 
         // hide legend on small devices
         // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
