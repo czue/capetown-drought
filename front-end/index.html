@@ -37,6 +37,7 @@
             <h1 class="title">Cape Town's Water Crisis</h1>
             <h2 class="subtitle">Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
             <canvas id="myChart" width="800" height="600"></canvas>
+            <p class="has-text-centered has-text-grey"><small>Last Updated: <span id="updated"></span></small></p>
         </div>
     </section>
     <footer class="footer">
@@ -97,7 +98,7 @@
         var ctx = document.getElementById("myChart");
         // dynamic legend for different browser widths
         $.getJSON('data.json', function(data) {
-            console.log(data.metadata.updated);
+            $('#updated').text(data.metadata.updated)
             var chartData = data.chart_data;
             for (var i = 0; i < chartData.datasets.length; i++) {
                 chartData.datasets[i]['backgroundColor'] = getColor(i);
