@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
-    <script src="./data.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
     <!-- <script src="stuff.js"></script> -->
     <title>The Drought: Cape Town's Water Crisis</title>
     <meta name="description" content="Historical dam levels for the Cape Town Region from 2012 to present day.">
@@ -26,7 +28,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'UA-94102737-8');
     </script>
 </head>
@@ -36,25 +37,55 @@
             <h1 class="title">Cape Town's Water Crisis</h1>
             <h2 class="subtitle">Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
             <canvas id="myChart" width="800" height="600"></canvas>
+            <p class="has-text-centered has-text-grey"><small>Last Updated: <span id="updated"></span></small></p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-three-quarters">
+                    <div class="content">
+                        <h2>Background Information</h2>
+                        <p>
+                            The City of Cape Town is experiencing its worst drought in over a century and if nothing is done
+                            the city is likely to run out of water before the rainy season of 2018.
+                            This plot of Cape Town's supply over the last five years aims to make that obvious to everyone.
+                            <strong>If historical usage trends continue, there is not enough water to get Cape Town through the summer.</strong>
+                            Despite this major crisis, many people in the city are not changing their behavior fast enough.
+                        </p>
+                        <p>
+                            Please help us save water!
+                        </p>
+                    </div>
+                </div>
+                <div class="column is-one-quarter">
+                    <div class="content">
+                        <h2>Resources</h2>
+                        <ul>
+                            <li><a href="http://mycapetownneeds.co.za/thinkwater/">Think Water Calculator</a></li>
+                            <li><a href="https://www.news.uct.ac.za/article/-2017-08-31-how-severe-is-the-droughta">How Severe is the Drought? (UCT)</a></li>
+                            <li><a href="https://en.wikipedia.org/wiki/2015-present_Cape_Town_drought">The Drought on Wikipedia</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <footer class="footer">
       <div class="container">
         <div class="content has-text-centered">
           <p>
-            Made by <a href="http://www.coryzue.com">Cory Zue</a> and <a href="https://github.com/nathanbegbie">Nathan Begbie</a>.
+            Made by <a href="http://www.coryzue.com">Cory Zue</a> and <a href="https://github.com/nathanbegbie">Nathan Begbie</a> |
+            <a href="https://github.com/czue/capetown-drought">Source</a> on <i class="fa fa-github"></i> |
+            Data from <a href="http://web1.capetown.gov.za/web1/opendataportal/">City of Cape Town</a>
           </p>
           <p>
             No <span class="icon has-text-info"><i class="fa fa-tint"></i></span> was wasted in the creation of this site.
-            <a href="https://github.com/czue/capetown-drought">Source</a> on <i class="fa fa-github"></i>
           </p>
         </div>
       </div>
     </footer>
     <script>
-    var ctx = document.getElementById("myChart");
-
-    // dynamic legend for different browser widths
     function getLegend(width) {
         if (width < 600)
         {
@@ -73,45 +104,79 @@
             }
         }
     }
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            scales: {
-                yAxes: [{
-                    stacked: true,
-                    ticks: {
-                        callback: function(value, index, values) {
-                            return value + " Ml";
-                        }
-                    }
-                }],
-            },
-            elements: {
-                point: {
-                    radius: 0
-                }
-            },
-            layout: {
-                padding: 20,
-            },
-            legend: getLegend(document.body.clientWidth),
-            maintainAspectRatio: true
-        }
-    });
+    var COLORS = [
+        "rgba(156, 204, 60, 0.2)",
+        "rgba(22, 169, 143, 0.2)",
+        "rgba(26, 146, 206, 0.2)",
+        "rgba(11, 87, 165, 0.2",
+        "rgba(107, 69, 156, 0.2)",
+        "rgba(164, 69, 153, 0.2)",
+        "rgba(228, 66, 152, 0.2)",
+        "rgba(236, 32, 41, 0.2)",
+        "rgba(248, 144, 33, 0.2)",
+        "rgba(255, 193, 20, 0.2)",
+        "rgba(247, 238, 35, 0.2)",
+    ];
 
-    // hide legend on small devices
-    // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
-    // this is wonky so don't bother for now.
-    //    var resizeId;
-    //    window.onresize = function(event) {
-    //        clearTimeout(resizeId);
-    //        resizeId = setTimeout(afterResizing, 100);
-    //    };
-    //    function afterResizing(){
-    //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
-    //        myChart.update();
-    //    }
+    function getColor(index) {
+        if (index < COLORS.length) {
+            return COLORS[index];
+        }
+        return COLORS[10];  // default
+    }
+
+    $(function () {
+        var ctx = document.getElementById("myChart");
+        // dynamic legend for different browser widths
+        $.getJSON('data.json', function(data) {
+            $('#updated').text(data.metadata.updated)
+            var chartData = data.chart_data;
+            for (var i = 0; i < chartData.datasets.length; i++) {
+                chartData.datasets[i]['backgroundColor'] = getColor(i);
+            }
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return value + " Ml";
+                                }
+                            }
+                        }],
+                    },
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    },
+                    layout: {
+                        padding: 20,
+                    },
+                    legend: getLegend(document.body.clientWidth),
+                    maintainAspectRatio: true
+                }
+            });
+        });
+
+
+        // hide legend on small devices
+        // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
+        // this is wonky so don't bother for now.
+        //    var resizeId;
+        //    window.onresize = function(event) {
+        //        clearTimeout(resizeId);
+        //        resizeId = setTimeout(afterResizing, 100);
+        //    };
+        //    function afterResizing(){
+        //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
+        //        myChart.update();
+        //    }
+
+    });
     </script>
 </body>
 </html>
