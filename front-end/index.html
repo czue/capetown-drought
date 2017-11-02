@@ -146,7 +146,7 @@
     $(function () {
         var ctx = document.getElementById("myChart");
         // dynamic legend for different browser widths
-        $.getJSON('data.json', function(data) {
+        $.getJSON('main-data.json', function(data) {
             $('#updated').text(data.metadata.updated)
             var chartData = data.chart_data;
             for (var i = 0; i < chartData.datasets.length; i++) {

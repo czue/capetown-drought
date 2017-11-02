@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import sys
 import pandas as pd
 import numpy as np
@@ -16,11 +16,13 @@ def do_import(filename):
         'metadata': metadata,
         'chart_data': data,
     }
-    _write_file(formatted)
+    _write_file(formatted, 'all-data.json')
+    data['datasets'] = _filter_minor_dams(data['datasets'])
+    _write_file(formatted, 'main-data.json')
 
 
 def _get_data_frame(filename):
-    return pd.read_csv(filename, encoding="UTF-8")
+    return pd.read_csv(filename, encoding="ISO-8859-1")
 
 
 def _clean_data(df):
@@ -36,19 +38,43 @@ def _get_dataset(df):
     }
 
 
-def _write_file(data):
-    with open('front-end/data.json', 'w') as f:
+def _write_file(data, filename):
+    with open('front-end/{}'.format(filename), 'w') as f:
         f.write(json.dumps(data, indent=2))
 
 
+def _filter_minor_dams(dam_data):
+    MINOR_DAMS = set(dam.lower() for dam in [
+        "Hely-Hutchinson",
+        "Woodhead",
+        "Victoria",
+        "Alexandra",
+        "De Villiers",
+        "KleinPlaats",
+        "Lewis Gay",
+    ])
+    return list(filter(lambda data: data['label'].lower() not in MINOR_DAMS, dam_data))
+
+
 def _load_dates(df):
+    KNOWN_BROKEN_DATES = {
+        datetime(2017, 8, 8): datetime(2017, 5, 8),
+        datetime(2018, 5, 19): datetime(2017, 5, 19),
+        datetime(2019, 5, 20): datetime(2017, 5, 20),
+        datetime(2020, 5, 21): datetime(2017, 5, 21),
+        datetime(2021, 5, 22): datetime(2017, 5, 22),
+    }
     dates = df.iloc[:, 0][4:]
     dates = pd.to_datetime(dates, dayfirst=True)
     # dates = dates.apply(lambda x: x.to_
     last_date = None
     for i, date in enumerate(dates):
-        if last_date:
-            assert last_date <= date, 'date {} found out of order! {} < {}'.format(i, date, last_date)
+        if last_date and date - last_date != timedelta(days=1):
+            if date in KNOWN_BROKEN_DATES:
+                date = KNOWN_BROKEN_DATES[date]
+            else:
+                assert False, 'date {} found anomalous data! {} is not the day after {}'.format(i, date, last_date)
+
         last_date = date
 
     return [str(d.date()) for d in dates.tolist()]
