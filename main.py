@@ -77,7 +77,8 @@ def _load_dates(df):
 
         last_date = date
 
-    return [str(d.date()) for d in dates.tolist()]
+
+    return [str(d.date()) for d in dates.tolist() if d.date() <= datetime.today().date()]
 
 
 def _load_data(df):
@@ -88,7 +89,9 @@ def _parse_chunk(df, start_index):
     cols = 4
     data = df.iloc[:, start_index:start_index + cols]
     dam_name = data.iloc[1][0]
-    dam_name = dam_name.replace('\ufffd', 'Ë')  # hack: fix Voëlvlei
+    # hack: fix Voëlvlei which shows up with weird (and changing) encodings
+    if dam_name.startswith("VO"):
+        dam_name = 'Voëlvlei'.upper()
     storage_data = data.iloc[:, 1][4:]
     storage_data = storage_data.str.replace('\s+', '')  # strip spaces
     storage_data = pd.to_numeric(storage_data, errors='coerce')
