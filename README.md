@@ -20,3 +20,9 @@ All data comes from the City of Cape Town's [Open Data Portal](http://web1.capet
 cd front-end
 python -m http.server 8000
 ```
+
+## Deploying
+
+(requires secrets and proper `s3_website.yml` file.
+
+`s3_website push`
