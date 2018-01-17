@@ -32,60 +32,97 @@
     </script>
 </head>
 <body>
+    <section class="hero is-warning is-bold ">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Cape Town's Water Crisis</h1>
+          <h2 class="subtitle">Information and data about South Africa's worst drought in history</h2>
+        </div>
+      </div>
+    </section>
     <section class="section">
         <div class="container">
-            <h1 class="title">Cape Town's Water Crisis</h1>
-            <h2 class="subtitle">Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
+         <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="title is-size-1"><span class="days-left"></span> Days</p>
+              <p class="heading is-size-6">Time until Taps Turn Off</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="title is-size-1">28.7%</p>
+              <p class="heading is-size-6">Current Dam Levels</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="title is-size-1">39%</p>
+              <p class="heading is-size-6">Captonians Saving Properly</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="title is-size-1">19.6%</p>
+              <p class="heading is-size-6">Over-consumption</p>
+            </div>
+          </div>
+        </nav>
+        <p class="small has-text-grey-light has-text-centered">
+            Data courtesy of <a href="http://coct.co/water-dashboard/" class="has-text-grey-light" style="text-decoration: underline;">City of Cape Town</a>.
+            Last updated <span class="last-updated"></span>
+        </p>
+        <div class="content">
+            <h2>Background Information</h2>
+            <p>
+                The City of Cape Town is experiencing its worst drought in over a century and if nothing is done
+                the city is likely to run out of water before the rainy season of 2018.
+                This plot of Cape Town's supply over the last five years aims to make that obvious to everyone.
+                <strong>If historical usage trends continue, there is not enough water to get Cape Town through the summer.</strong>
+                Despite this major crisis, many people in the city are not changing their behavior fast enough.
+            </p>
+            <p>
+                Please help us save water!
+            </p>
+            <h2>Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
+            <p>The easiest way to see trends and how bad the situation is today is by looking at the dam levels over time.</p>
             <canvas id="myChart" width="800" height="600"></canvas>
-            <p class="has-text-centered has-text-grey"><small>Last Updated: <span id="updated"></span></small></p>
+            <p class="has-text-centered has-text-grey"><small>Last Updated: <span class="last-updated"></span></small></p>
         </div>
     </section>
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-three-quarters">
-                    <div class="content">
-                        <h2>Background Information</h2>
-                        <p>
-                            The City of Cape Town is experiencing its worst drought in over a century and if nothing is done
-                            the city is likely to run out of water before the rainy season of 2018.
-                            This plot of Cape Town's supply over the last five years aims to make that obvious to everyone.
-                            <strong>If historical usage trends continue, there is not enough water to get Cape Town through the summer.</strong>
-                            Despite this major crisis, many people in the city are not changing their behavior fast enough.
-                        </p>
-                        <p>
-                            Please help us save water!
-                        </p>
-                    </div>
-                </div>
-                <div class="column is-one-quarter">
-                    <div class="content">
-                        <h2>Resources</h2>
-                        <ul>
-                            <li><a href="http://mycapetownneeds.co.za/thinkwater/">Think Water Calculator</a></li>
-                            <li><a href="https://www.news.uct.ac.za/article/-2017-08-31-how-severe-is-the-droughta">How Severe is the Drought? (UCT)</a></li>
-                            <li><a href="https://en.wikipedia.org/wiki/2015-present_Cape_Town_drought">The Drought on Wikipedia</a></li>
-                            <li><a href="https://www.westerncape.gov.za/general-publication/saving-water-your-home">Saving Water In Your Home (Western Cape Government)</a></li>
-                            </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column">
+                <div class="column is-half">
                     <div class="content">
                         <h2>What Can I Do?</h2>
                         <p>
                             Here are four simple things that everyone in Cape Town can do today to respond to this crisis:
                             <ul>
                             <li>Save 20 L of water by reducing your time in the shower by two minutes.</li>
-                            <li>Save 9 L of water every time you choose not to flush your toilet.</li>
-                            <li>Save 8 L of water every day by dropping a brick or full bottle into your toiliet cistern to reduce its water consumption.</li>
+                            <li>Save 9 L of water every time you choose not to flush your toilet. If it's yellow, let it mellow!</li>
+                            <li>Save 8 L of water every day by dropping a brick or full bottle into your toilet cistern to reduce its water consumption.</li>
                             <li>Use your greywater. Use the run-off from showers and washing to flush toilets.</li>
                             </ul>
                             For more information, check out the Resources section of this site.
                         </p>
                     </div>
                 </div>
+                <div class="column is-half">
+                    <div class="content">
+                        <h2>Recommended Resources</h2>
+                        <ul>
+                            <li><a href="http://coct.co/water-dashboard/">City of Cape Town Water Dashboard</a></li>
+                            <li><a href="http://mycapetownneeds.co.za/thinkwater/">Think Water Calculator</a></li>
+                            <li><a href="https://citymaps.capetown.gov.za/waterviewer/">City Water Usage Map</a></li>
+                            <li><a href="https://www.news.uct.ac.za/article/-2017-08-31-how-severe-is-the-droughta">How Severe is the Drought? (UCT)</a></li>
+                            <li><a href="https://en.wikipedia.org/wiki/2015-present_Cape_Town_drought">The Drought on Wikipedia</a></li>
+                            <li><a href="https://www.westerncape.gov.za/general-publication/saving-water-your-home">Saving Water In Your Home (Western Cape Government)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
             </div>
         </div>
     </section>
@@ -145,9 +182,15 @@
 
     $(function () {
         var ctx = document.getElementById("myChart");
+        var today = new Date();
+        var dayZero = new Date(2018, 3, 21);
+        // https://stackoverflow.com/a/2627493/8207
+        var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+        var daysLeft = Math.round(Math.abs((today.getTime() - dayZero.getTime())/(oneDay)));
+        $('.days-left').text(daysLeft);
         // dynamic legend for different browser widths
         $.getJSON('main-data.json', function(data) {
-            $('#updated').text(data.metadata.updated)
+            $('.last-updated').text(data.metadata.updated);
             var chartData = data.chart_data;
             for (var i = 0; i < chartData.datasets.length; i++) {
                 chartData.datasets[i]['backgroundColor'] = getColor(i);
