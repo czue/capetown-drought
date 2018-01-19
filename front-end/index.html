@@ -57,6 +57,12 @@
           </div>
           <div class="level-item has-text-centered">
             <div>
+              <p class="title is-size-1">50L</p>
+              <p class="heading is-size-6">Recommended daily usage</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
               <p class="title is-size-1">39%</p>
               <p class="heading is-size-6">Captonians Saving Properly</p>
             </div>
@@ -85,7 +91,11 @@
                 Please help us save water!
             </p>
             <h2>Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
-            <p>The easiest way to see trends and how bad the situation is today is by looking at the dam levels over time.</p>
+            <p>
+                The easiest way to see trends and how bad the situation is today is by looking at the dam levels over time.
+                This makes it clear both how severe the situation is and how scary the current drop-off is.
+                The red line represents the estimated point at which the taps will be turned off, a.k.a. "Day Zero".
+            </p>
             <canvas id="myChart" width="800" height="600"></canvas>
             <p class="has-text-centered has-text-grey"><small>Last Updated: <span class="last-updated"></span></small></p>
         </div>
@@ -184,6 +194,7 @@
         var ctx = document.getElementById("myChart");
         var today = new Date();
         var dayZero = new Date(2018, 3, 21);
+        var cutoff = 112500;
         // https://stackoverflow.com/a/2627493/8207
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
         var daysLeft = Math.round(Math.abs((today.getTime() - dayZero.getTime())/(oneDay)));
@@ -194,20 +205,50 @@
             var chartData = data.chart_data;
             for (var i = 0; i < chartData.datasets.length; i++) {
                 chartData.datasets[i]['backgroundColor'] = getColor(i);
+                chartData.datasets[i]['yAxisID'] = 'dams';
             }
+            var lineData = [];
+            for (var i = 0; i < chartData.labels.length; i++) {
+                lineData.push(cutoff);
+            }
+            var lineData = {
+                "label": "Estimated Cutoff Level",
+                "data": lineData,
+                "borderColor": "#f00",
+                "backgroundColor": "#fff",
+                "fill": false,
+                "yAxisID": "secondary",
+            }
+            chartData.datasets.push(lineData);
+            var max = 1000000;
+            var min = 0;
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: chartData,
                 options: {
                     scales: {
-                        yAxes: [{
-                            stacked: true,
-                            ticks: {
-                                callback: function(value, index, values) {
-                                    return value + " Ml";
+                        yAxes: [
+                            {
+                                id: "dams",
+                                stacked: true,
+                                ticks: {
+                                    max: max,
+                                    min: min,
+                                    callback: function(value, index, values) {
+                                        return value + " Ml";
+                                    }
                                 }
-                            }
-                        }],
+                            },
+                            {
+                                id: "secondary",
+                                display: false,
+                                stacked: false,
+                                ticks: {
+                                    max: max,
+                                    min: min,
+                                }
+                            },
+                        ],
                     },
                     elements: {
                         point: {
@@ -222,7 +263,6 @@
                 }
             });
         });
-
 
         // hide legend on small devices
         // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
