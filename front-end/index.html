@@ -51,7 +51,7 @@
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="title is-size-1">28.7%</p>
+              <p class="title is-size-1 dam-levels"></p>
               <p class="heading is-size-6">Current Dam Levels</p>
             </div>
           </div>
@@ -66,13 +66,13 @@
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="title is-size-2">39%</p>
+              <p class="title is-size-2 people-saving"></p>
               <p class="heading is-size-6">Captonians Saving Properly</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="title is-size-2">19.6%</p>
+              <p class="title is-size-2 over-consumption"></p>
               <p class="heading is-size-6">Over-consumption</p>
             </div>
           </div>
@@ -225,13 +225,19 @@
 
     $(function () {
         var ctx = document.getElementById("myChart");
-        var today = new Date();
-        var dayZero = new Date(2018, 3, 21);
         var cutoff = 112500;
+        var today = new Date();
+        var dayZero = new Date(2018, 3, 12);
+        var damLevels = '27.2%';
+        var peopleSaving = '41%';
+        var overConsumption = '19.6%';
         // https://stackoverflow.com/a/2627493/8207
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
         var daysLeft = Math.round(Math.abs((today.getTime() - dayZero.getTime())/(oneDay)));
         $('.days-left').text(daysLeft);
+        $('.dam-levels').text(damLevels);
+        $('.people-saving').text(peopleSaving);
+        $('.over-consumption').text(overConsumption);
         // dynamic legend for different browser widths
         $.getJSON('main-data.json', function(data) {
             $('.last-updated').text(data.metadata.updated);
