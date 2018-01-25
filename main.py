@@ -102,7 +102,7 @@ def _parse_chunk(df, start_index):
     }
 
 if __name__ == '__main__':
-    filename = 'data/Dam levels update 2012-2017.csv'
+    filename = 'data/Dam levels update 2012-2018.csv'
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     do_import(filename)
