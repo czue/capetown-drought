@@ -55,6 +55,12 @@
               <p class="heading is-size-6">Current Dam Levels</p>
             </div>
           </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="title is-size-1 usable-levels"></p>
+              <p class="heading is-size-6">Usable Dam Levels</p>
+            </div>
+          </div>
         </nav>
         <hr>
         <nav class="level">
@@ -228,15 +234,17 @@
         var ctx = document.getElementById("myChart");
         var cutoff = 112500;
         var today = new Date();
-        var dayZero = new Date(2018, 3, 12);
-        var damLevels = '27.2%';
-        var peopleSaving = '41%';
-        var overConsumption = '19.6%';
+        var dayZero = new Date(2018, 3, 16);
+        var damLevels = '26.3%';
+        var usableLevels = '16.3%';
+        var peopleSaving = '55%';
+        var overConsumption = '28.9%';
         // https://stackoverflow.com/a/2627493/8207
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
         var daysLeft = Math.round(Math.abs((today.getTime() - dayZero.getTime())/(oneDay)));
         $('.days-left').text(daysLeft);
         $('.dam-levels').text(damLevels);
+        $('.usable-levels').text(usableLevels);
         $('.people-saving').text(peopleSaving);
         $('.over-consumption').text(overConsumption);
         // dynamic legend for different browser widths
