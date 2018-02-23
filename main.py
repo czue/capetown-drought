@@ -77,7 +77,6 @@ def _load_dates(df):
 
         last_date = date
 
-
     return [str(d.date()) for d in dates.tolist() if d.date() <= datetime.today().date()]
 
 
@@ -102,7 +101,7 @@ def _parse_chunk(df, start_index):
     }
 
 if __name__ == '__main__':
-    filename = 'data/Dam levels update 2012-2018.csv'
+    filename = 'data/Dam levels 2012-2018.csv'
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     do_import(filename)
