@@ -105,6 +105,23 @@
                 This makes it clear both how severe the situation is and how scary the current drop-off is.
                 The red line represents the estimated point at which the taps will be turned off, a.k.a. "Day Zero".
             </p>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label for="history" class="label">Show data for: </label>
+                </div>
+                <div class="field-body">
+                    <div class="select">
+                        <select id="history">
+                            <option value="1">1 year</option>
+                            <option value="2">2 years</option>
+                            <option value="3" selected="selected">3 years</option>
+                            <option value="4">4 years</option>
+                            <option value="5">5 years</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <canvas id="myChart" width="800" height="600"></canvas>
             <p class="has-text-centered has-text-grey"><small>Last Updated: <span class="last-updated"></span></small></p>
         </div>
@@ -242,89 +259,117 @@
         // https://stackoverflow.com/a/2627493/8207
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
         var daysLeft = Math.round(Math.abs((today.getTime() - dayZero.getTime())/(oneDay)));
+        var latestDate = new Date();
+        var allChartData, lineData, chartObject;
         $('.days-left').text(daysLeft);
         $('.dam-levels').text(damLevels);
         $('.usable-levels').text(usableLevels);
         $('.people-saving').text(peopleSaving);
         $('.over-consumption').text(overConsumption);
         // dynamic legend for different browser widths
-        $.getJSON('main-data.json', function(data) {
-            $('.last-updated').text(data.metadata.updated);
-            var chartData = data.chart_data;
-            for (var i = 0; i < chartData.datasets.length; i++) {
-                chartData.datasets[i]['backgroundColor'] = getColor(i);
-                chartData.datasets[i]['yAxisID'] = 'dams';
+        function getStartDate() {
+            var history = $('#history').val();
+            if (history === 'all') {
+                return null;
+            } else {
+                var copiedDate = new Date(latestDate.getTime());
+                copiedDate.setFullYear(copiedDate.getFullYear() - history);
+                return copiedDate.toJSON().slice(0,10);
             }
-            var lineData = [];
-            for (var i = 0; i < chartData.labels.length; i++) {
-                lineData.push(cutoff);
+        }
+        function getFilteredChartData() {
+            var startFrom = getStartDate();
+            var filteredData = jQuery.extend(true, {}, allChartData);
+            var filteredLineData = lineData.slice();
+            if (startFrom !== null) {
+                var startIndex = filteredData.labels.indexOf(startFrom);
+                filteredData.labels = filteredData.labels.slice(startIndex)
+                for (var i = 0; i < filteredData.datasets.length; i++) {
+                    filteredData.datasets[i].data = filteredData.datasets[i].data.slice(startIndex);
+                }
+                filteredLineData = filteredLineData.slice(startIndex);
             }
+            return [filteredData, filteredLineData];
+        }
+        function updateChart(dataSets) {
+            var chartData = dataSets[0];
+            var lineDataSet = dataSets[1];
             var lineData = {
                 "label": "Estimated Cutoff Level",
-                "data": lineData,
+                "data": lineDataSet,
                 "borderColor": "#f00",
                 "backgroundColor": "#fff",
                 "fill": false,
                 "yAxisID": "secondary",
-            }
+            };
             chartData.datasets.push(lineData);
             var max = 1000000;
             var min = 0;
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: chartData,
-                options: {
-                    scales: {
-                        yAxes: [
-                            {
-                                id: "dams",
-                                stacked: true,
-                                ticks: {
-                                    max: max,
-                                    min: min,
-                                    callback: function(value, index, values) {
-                                        return value + " Ml";
+            if (chartObject === undefined) {
+                chartObject = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: {
+                        scales: {
+                            yAxes: [
+                                {
+                                    id: "dams",
+                                    stacked: true,
+                                    ticks: {
+                                        max: max,
+                                        min: min,
+                                        callback: function(value, index, values) {
+                                            return value + " Ml";
+                                        }
                                     }
-                                }
-                            },
-                            {
-                                id: "secondary",
-                                display: false,
-                                stacked: false,
-                                ticks: {
-                                    max: max,
-                                    min: min,
-                                }
-                            },
-                        ],
-                    },
-                    elements: {
-                        point: {
-                            radius: 0
-                        }
-                    },
-                    layout: {
-                        padding: 20,
-                    },
-                    legend: getLegend(document.body.clientWidth),
-                    maintainAspectRatio: true
-                }
-            });
+                                },
+                                {
+                                    id: "secondary",
+                                    display: false,
+                                    stacked: false,
+                                    ticks: {
+                                        max: max,
+                                        min: min,
+                                    }
+                                },
+                            ],
+                        },
+                        elements: {
+                            point: {
+                                radius: 0
+                            }
+                        },
+                        layout: {
+                            padding: 20,
+                        },
+                        legend: getLegend(document.body.clientWidth),
+                        maintainAspectRatio: true
+                    }
+                });
+            } else {
+                chartObject.config.data = chartData;
+                chartObject.update();
+            }
+        }
+        $.getJSON('main-data.json', function(data) {
+            $('.last-updated').text(data.metadata.updated);
+            allChartData = data.chart_data;
+            latestDate = new Date(allChartData.labels[allChartData.labels.length - 1]);
+            for (var i = 0; i < allChartData.datasets.length; i++) {
+                allChartData.datasets[i]['backgroundColor'] = getColor(i);
+                allChartData.datasets[i]['yAxisID'] = 'dams';
+            }
+            lineData = [];
+            for (var i = 0; i < allChartData.labels.length; i++) {
+                lineData.push(cutoff);
+            }
+            var dataSets = getFilteredChartData();
+            updateChart(dataSets);
         });
-
-        // hide legend on small devices
-        // https://github.com/chartjs/Chart.js/issues/1933#issuecomment-174544514
-        // this is wonky so don't bother for now.
-        //    var resizeId;
-        //    window.onresize = function(event) {
-        //        clearTimeout(resizeId);
-        //        resizeId = setTimeout(afterResizing, 100);
-        //    };
-        //    function afterResizing(){
-        //        myChart.options.legend = getLegend(document.getElementById("myChart").clientWidth);
-        //        myChart.update();
-        //    }
-
+        $('#history').change(function (e) {
+            var dataSets = getFilteredChartData();
+            updateChart(dataSets);
+        });
     });
     </script>
 </body>
