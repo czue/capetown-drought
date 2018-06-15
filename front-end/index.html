@@ -45,12 +45,6 @@
          <nav class="level">
           <div class="level-item has-text-centered">
             <div>
-              <p class="title is-size-1">At least <span class="days-left"></span> Days</p>
-              <p class="heading is-size-6">Time until Taps Turn Off</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
               <p class="title is-size-1 dam-levels"></p>
               <p class="heading is-size-6">Current Dam Levels</p>
             </div>
@@ -61,25 +55,10 @@
               <p class="heading is-size-6">Usable Dam Levels</p>
             </div>
           </div>
-        </nav>
-        <hr>
-        <nav class="level">
           <div class="level-item has-text-centered">
             <div>
               <p class="title is-size-2">50L</p>
               <p class="heading is-size-6">Recommended daily usage</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="title is-size-2 people-saving"></p>
-              <p class="heading is-size-6">Capetonians Saving Properly</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="title is-size-2 over-consumption"></p>
-              <p class="heading is-size-6">Over-consumption</p>
             </div>
           </div>
         </nav>
@@ -250,22 +229,13 @@
     $(function () {
         var ctx = document.getElementById("myChart");
         var cutoff = 112500;
-        var today = new Date();
-        var dayZero = new Date(2019, 3, 1);
-        var damLevels = '21.1%';
-        var usableLevels = '11.1%';
-        var peopleSaving = '?';
-        var overConsumption = '16.7%';
+        var damLevels = '31.8%';
+        var usableLevels = '21.8%';
         // https://stackoverflow.com/a/2627493/8207
-        var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-        var daysLeft = Math.round(Math.abs((today.getTime() - dayZero.getTime())/(oneDay)));
         var latestDate = new Date();
         var allChartData, lineData, chartObject;
-        $('.days-left').text(daysLeft);
         $('.dam-levels').text(damLevels);
         $('.usable-levels').text(usableLevels);
-        $('.people-saving').text(peopleSaving);
-        $('.over-consumption').text(overConsumption);
         // dynamic legend for different browser widths
         function getStartDate() {
             var history = $('#history').val();
