@@ -69,14 +69,18 @@
         <div class="content">
             <h2>Background Information</h2>
             <p>
-                The City of Cape Town is experiencing its worst drought in over a century and if nothing is done
-                the city is likely to run out of water before the rainy season of 2018.
-                This plot of Cape Town's supply over the last five years aims to make that obvious to everyone.
-                <strong>If historical usage trends continue, there is not enough water to get Cape Town through the summer.</strong>
-                Despite this major crisis, many people in the city are not changing their behavior fast enough.
+                In 2018, the City of Cape Town experienced its worst drought in over a century.
+                This site was created to make that obvious to everyone.
             </p>
             <p>
-                Please help us save water!
+                Thankfully, in 2018 the region had a relatively bountiful rainy season,
+                and the city was able to escape it's "Day Zero" plans for turning off
+                the city's water supply.
+            </p>
+            <p>
+                Still, <em>the region is stressed</em>.
+                Ultimately, it relies on a limited water supply that is highly subject to seasonal influence.
+                Meanwhile, the population and water consumption continue to grow.
             </p>
             <h2>Historical Dam Levels for the Cape Town Region: 2012&mdash;Present</h2>
             <p>
@@ -229,8 +233,8 @@
     $(function () {
         var ctx = document.getElementById("myChart");
         var cutoff = 112500;
-        var damLevels = '53.3%';
-        var usableLevels = '43.3%';
+        var damLevels = '46.0%';
+        var usableLevels = '36.0%';
         // https://stackoverflow.com/a/2627493/8207
         var latestDate = new Date();
         var allChartData, lineData, chartObject;
