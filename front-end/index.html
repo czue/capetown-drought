@@ -49,18 +49,18 @@
               <p class="heading is-size-6">Current Dam Levels</p>
             </div>
           </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="title is-size-1 usable-levels"></p>
-              <p class="heading is-size-6">Usable Dam Levels</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="title is-size-2">105L</p>
-              <p class="heading is-size-6">Recommended daily usage</p>
-            </div>
-          </div>
+          <!--<div class="level-item has-text-centered">-->
+            <!--<div>-->
+              <!--<p class="title is-size-1 usable-levels"></p>-->
+              <!--<p class="heading is-size-6">Usable Dam Levels</p>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="level-item has-text-centered">-->
+            <!--<div>-->
+              <!--<p class="title is-size-2">?</p>-->
+              <!--<p class="heading is-size-6">Recommended daily usage</p>-->
+            <!--</div>-->
+          <!--</div>-->
         </nav>
         <p class="small has-text-grey-light has-text-centered">
             Data courtesy of <a href="http://coct.co/water-dashboard/" class="has-text-grey-light" style="text-decoration: underline;">City of Cape Town</a>.
@@ -233,8 +233,8 @@
     $(function () {
         var ctx = document.getElementById("myChart");
         var cutoff = 112500;
-        var damLevels = '48.0%';
-        var usableLevels = '38.0%';
+        var damLevels = '80.6%';
+        var usableLevels = '70.6%';
         // https://stackoverflow.com/a/2627493/8207
         var latestDate = new Date();
         var allChartData, lineData, chartObject;
