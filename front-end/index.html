@@ -233,13 +233,13 @@
     $(function () {
         var ctx = document.getElementById("myChart");
         var cutoff = 112500;
-        var damLevels = '80.6%';
-        var usableLevels = '70.6%';
+        var damLevels = '79.7%';
+        // var usableLevels = '70.6%';
         // https://stackoverflow.com/a/2627493/8207
         var latestDate = new Date();
         var allChartData, lineData, chartObject;
         $('.dam-levels').text(damLevels);
-        $('.usable-levels').text(usableLevels);
+        // $('.usable-levels').text(usableLevels);
         // dynamic legend for different browser widths
         function getStartDate() {
             var history = $('#history').val();
