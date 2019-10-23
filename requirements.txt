@@ -20,7 +20,7 @@ jupyter-console==5.2.0    # via jupyter
 jupyter-core==4.3.0       # via jupyter-client, nbconvert, nbformat, notebook, qtconsole
 jupyter==1.0.0
 markupsafe==1.0           # via jinja2
-mistune==0.7.4            # via nbconvert
+mistune==0.8.1            # via nbconvert
 nbconvert==5.3.1          # via jupyter, notebook
 nbformat==4.4.0           # via ipywidgets, nbconvert, notebook
 notebook==5.2.0           # via jupyter, widgetsnbextension
